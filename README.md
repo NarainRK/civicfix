@@ -156,8 +156,8 @@ Set `API_BASE` in `frontend/script.js` to your backend URL.
 Full step-by-step instructions: `docs/deployment-guide.md`. Record your
 live URLs here once deployed:
 
-- **Live app (frontend):** `https://<your-app>.netlify.app`
-- **Live API (backend):** `https://<your-app>.onrender.com/api`
+- **Live app (frontend):** `https://profound-bonbon-571cad.netlify.app`
+- **Live API (backend):** `https://civicfix-backend-8u4x.onrender.com/api`
 - **Database:** MongoDB Atlas cluster `civicfix`
 
 ## 9. Documentation
