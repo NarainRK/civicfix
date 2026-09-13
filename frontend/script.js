@@ -1,5 +1,5 @@
 // Point this at your deployed backend URL, e.g. "https://civicfix-api.onrender.com/api"
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://civicfix-backend-8u4x.onrender.com/api";
 
 // ---------------------------------------------------------------------
 // Auth state (JWT stored in localStorage so the session survives reloads)
