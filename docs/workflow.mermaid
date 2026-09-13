@@ -1,0 +1,17 @@
+flowchart TD
+    U[Citizen] -->|Register/Login| AUTH[JWT issued]
+    AUTH --> CREATE["Create issue<br/>POST /api/issues"]
+    CREATE -->|"e.g. 'Pothole on Main Road'"| VIEW["View issues<br/>GET /api/issues, /api/issues/my"]
+    VIEW --> EDIT["Edit own issue<br/>PUT /api/issues/:id"]
+    VIEW --> DEL["Delete own issue<br/>DELETE /api/issues/:id"]
+
+    AUTH2[Admin] -->|Register/Login| AUTH
+    AUTH2 --> ALL["View all issues<br/>GET /api/issues"]
+    ALL --> TRIAGE["Assign priority + change status<br/>PATCH /api/issues/:id/status"]
+    TRIAGE --> PROGRESS[In Progress]
+    PROGRESS --> RESOLVED[Resolved]
+
+    classDef citizen fill:#dbeafe,stroke:#2563eb;
+    classDef admin fill:#fef3c7,stroke:#d97706;
+    class U,CREATE,VIEW,EDIT,DEL citizen;
+    class AUTH2,ALL,TRIAGE,PROGRESS,RESOLVED admin;

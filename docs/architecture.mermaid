@@ -1,0 +1,43 @@
+flowchart TB
+    subgraph Client["Client Layer"]
+        A[Browser SPA<br/>HTML + CSS + JavaScript]
+    end
+
+    subgraph CDN["Static Hosting - Netlify"]
+        B[frontend: index.html, style.css, script.js<br/>JWT stored client-side after login]
+    end
+
+    subgraph Compute["Cloud Compute - Render.com Web Service"]
+        C[Express server.js]
+        M1[middleware/auth.js<br/>protect + authorize role checks]
+        R1[routes/authRoutes.js]
+        R2[routes/issueRoutes.js]
+        CT1[controllers/authController.js<br/>register / login / JWT signing]
+        CT2[controllers/issueController.js<br/>CRUD + triage logic]
+        E[models/Issue.js + models/User.js<br/>Mongoose ODM]
+    end
+
+    subgraph Data["Cloud Database - MongoDB Atlas"]
+        F[(users collection)]
+        G[(issues collection)]
+    end
+
+    subgraph CI["CI/CD"]
+        H[GitHub Repository]
+    end
+
+    A -->|HTTPS| B
+    B -->|"POST /api/auth/login, /register"| C
+    B -->|"CRUD + PATCH /status (Bearer JWT)"| C
+    C --> R1 --> CT1
+    C --> R2 --> M1 --> CT2
+    CT1 --> E
+    CT2 --> E
+    E -->|Mongoose / TLS| F
+    E -->|Mongoose / TLS| G
+
+    H -->|git push, auto-deploy| C
+    H -->|git push, auto-deploy| B
+
+    classDef cloud fill:#e0f2fe,stroke:#0369a1,stroke-width:1px;
+    class Compute,Data,CDN,CI cloud;

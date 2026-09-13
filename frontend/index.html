@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CivicFix - Report Community Issues</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🛠️ CivicFix</h1>
+    <p>Report and track local civic issues — potholes, garbage, broken lights & more.</p>
+    <div id="user-bar" class="user-bar" style="display:none;">
+      <span id="user-info"></span>
+      <button id="logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <!-- ===================== AUTH SCREEN ===================== -->
+  <main id="auth-screen">
+    <section class="form-card auth-card">
+      <div class="tabs">
+        <button id="tab-login" class="tab active">Login</button>
+        <button id="tab-register" class="tab">Register</button>
+      </div>
+
+      <form id="login-form">
+        <label>Email <input type="email" id="login-email" required /></label>
+        <label>Password <input type="password" id="login-password" required minlength="6" /></label>
+        <button type="submit">Login</button>
+      </form>
+
+      <form id="register-form" style="display:none;">
+        <label>Full Name <input type="text" id="reg-name" required /></label>
+        <label>Email <input type="email" id="reg-email" required /></label>
+        <label>Password <input type="password" id="reg-password" required minlength="6" /></label>
+        <p class="hint">New accounts are always created as citizens.
+          Admin accounts are provisioned separately by the CivicFix team
+          and can't be self-registered — this keeps the triage workflow trustworthy.</p>
+        <button type="submit">Create Account</button>
+      </form>
+      <p id="auth-error" class="error"></p>
+    </section>
+  </main>
+
+  <!-- ===================== APP SCREEN ===================== -->
+  <main id="app-screen" style="display:none;">
+    <section class="form-card" id="create-card">
+      <h2 id="form-title">Report a New Issue</h2>
+      <form id="issue-form">
+        <input type="hidden" id="issue-id" />
+        <label>Title
+          <input type="text" id="title" required maxlength="120" placeholder="e.g. Large pothole on Main St" />
+        </label>
+        <label>Description
+          <textarea id="description" required maxlength="1000" placeholder="Describe the issue..."></textarea>
+        </label>
+        <label>Category
+          <select id="category">
+            <option>Pothole</option>
+            <option>Garbage</option>
+            <option>Streetlight</option>
+            <option>Water Supply</option>
+            <option>Drainage</option>
+            <option>Illegal Construction</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>Location
+          <input type="text" id="location" required maxlength="200" placeholder="e.g. 4th Cross Street, T Nagar" />
+        </label>
+        <div class="form-actions">
+          <button type="submit" id="submit-btn">Submit Report</button>
+          <button type="button" id="cancel-edit" style="display:none;">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="list-section">
+      <div id="admin-dashboard" class="dashboard-grid" style="display:none;">
+        <div class="dash-card total"><span class="dash-value" id="dash-total">0</span><span class="dash-label">Total</span></div>
+        <div class="dash-card pending"><span class="dash-value" id="dash-pending">0</span><span class="dash-label">Pending</span></div>
+        <div class="dash-card progress"><span class="dash-value" id="dash-progress">0</span><span class="dash-label">In Progress</span></div>
+        <div class="dash-card resolved"><span class="dash-value" id="dash-resolved">0</span><span class="dash-label">Resolved</span></div>
+      </div>
+
+      <div class="list-header">
+        <h2 id="list-title">All Reported Issues</h2>
+        <div class="filters">
+          <div class="tabs small" id="scope-tabs">
+            <button class="tab active" data-scope="all">All Issues</button>
+            <button class="tab" data-scope="mine">My Issues</button>
+          </div>
+          <select id="filter-status">
+            <option value="">All Statuses</option>
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Resolved</option>
+            <option>Rejected</option>
+          </select>
+          <select id="filter-category">
+            <option value="">All Categories</option>
+            <option>Pothole</option>
+            <option>Garbage</option>
+            <option>Streetlight</option>
+            <option>Water Supply</option>
+            <option>Drainage</option>
+            <option>Illegal Construction</option>
+            <option>Other</option>
+          </select>
+          <button id="refresh-btn">Refresh</button>
+        </div>
+      </div>
+      <div id="stats" class="stats"></div>
+
+      <!-- Citizen view: card list -->
+      <div id="issue-list" class="issue-list"></div>
+
+      <!-- Admin view: dashboard table -->
+      <div id="issue-table-wrap" class="table-wrap" style="display:none;">
+        <table class="issue-table">
+          <thead>
+            <tr>
+              <th>Issue</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Reported By</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="issue-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>CivicFix &mdash; Cloud Computing Course Project (Node.js + Express + MongoDB Atlas + JWT Auth)</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
