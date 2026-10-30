@@ -1,11 +1,12 @@
+
 const express = require("express");
 const router = express.Router();
-const { register, login } = require("../controllers/authController");
+const { register, login, setupMfa, verifyMfaSetup } = require("../controllers/authController");
+const { protect } = require("../middleware/auth");
 
-// @route POST /api/auth/register
 router.post("/register", register);
-
-// @route POST /api/auth/login
 router.post("/login", login);
+router.post("/mfa/setup", protect, setupMfa);
+router.post("/mfa/verify-setup", protect, verifyMfaSetup);
 
 module.exports = router;

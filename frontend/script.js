@@ -79,9 +79,14 @@ tabRegister.addEventListener("click", () => {
   authError.textContent = "";
 });
 
+
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   authError.textContent = "";
+
+  const mfaCode = document.getElementById("mfa-code");
+  const mfaLabel = document.getElementById("mfa-code-label");
+
   try {
     const res = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
@@ -89,10 +94,26 @@ loginForm.addEventListener("submit", async (e) => {
       body: JSON.stringify({
         email: document.getElementById("login-email").value,
         password: document.getElementById("login-password").value,
+        ...(mfaLabel.style.display !== "none" ? { totpToken: mfaCode.value } : {}),
       }),
     });
+
     const json = await res.json();
+
+    if (json.mfaRequired) {
+      mfaLabel.style.display = "grid";
+      mfaCode.required = true;
+      mfaCode.focus();
+      authError.textContent = json.message || "Enter your authenticator code and log in again.";
+      return;
+    }
+
     if (!res.ok) throw new Error(json.message || "Login failed");
+
+    mfaLabel.style.display = "none";
+    mfaCode.required = false;
+    mfaCode.value = "";
+
     saveSession(json.token, json.user);
     renderAuthState();
   } catch (err) {

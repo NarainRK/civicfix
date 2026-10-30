@@ -23,11 +23,21 @@ const UserSchema = new mongoose.Schema(
       minlength: 6,
       select: false, // never return password by default
     },
+    
     role: {
       type: String,
       enum: ["citizen", "admin"],
       default: "citizen",
     },
+    mfaEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    mfaSecret: {
+      type: String,
+      select: false,
+    },
+
   },
   { timestamps: true }
 );

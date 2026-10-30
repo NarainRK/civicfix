@@ -4,6 +4,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const issueRoutes = require("./routes/issueRoutes");
 const authRoutes = require("./routes/authRoutes");
+const os = require("os");
 
 const app = express();
 
@@ -17,6 +18,12 @@ connectDB();
 // --- Health check (useful for cloud platform uptime checks) ---
 app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "ok", service: "civicfix-backend", time: new Date() });
+});
+app.get("/api/instance", (req, res) => {
+  res.status(200).json({
+    instance: process.env.INSTANCE_ID || os.hostname(),
+    status: "ok"
+  });
 });
 
 // --- REST API routes ---

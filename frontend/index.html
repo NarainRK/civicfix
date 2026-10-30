@@ -24,11 +24,16 @@
         <button id="tab-register" class="tab">Register</button>
       </div>
 
-      <form id="login-form">
-        <label>Email <input type="email" id="login-email" required /></label>
-        <label>Password <input type="password" id="login-password" required minlength="6" /></label>
-        <button type="submit">Login</button>
-      </form>
+      
+<form id="login-form">
+  <label>Email <input type="email" id="login-email" required /></label>
+  <label>Password <input type="password" id="login-password" required minlength="6" /></label>
+  <label id="mfa-code-label" style="display:none;">Authenticator Code
+    <input type="text" id="mfa-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" />
+  </label>
+  <button type="submit">Login</button>
+</form>
+
 
       <form id="register-form" style="display:none;">
         <label>Full Name <input type="text" id="reg-name" required /></label>
